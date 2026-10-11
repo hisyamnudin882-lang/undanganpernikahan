@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Hisyam & Fanesa</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --maroon: #6B2737;
+            --gold: #D4AF37;
+            --cream: #FDFBF7;
+            --dark: #333;
+            --font-title: 'Playfair Display', serif;
+            --font-sub: 'Cinzel', serif;
+            --font-text: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-text);
+            background-color: #1a1a1a; 
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            color: var(--dark);
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #app-wrapper {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--cream);
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4 { 
+            font-family: var(--font-title); 
+            color: var(--maroon); 
+        }
+        .text-gold { color: var(--gold); }
+        
+        #cover {
+            position: relative;
+            width: 100%; 
+            height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            text-align: center; 
+            padding: 15px;
+            background-color: var(--dark);
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: absolute; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            object-fit: cover; 
+            z-index: 1; 
+            filter: brightness(0.7);
+        }
+
+        @keyframes munculTeks {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cover-content {
+            position: relative; 
+            z-index: 2; 
+            color: var(--cream);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            width: 100%; 
+            max-width: 100%;
+            opacity: 0; 
+            padding: 0 10px;
+        }
+
+        .cover-content.animate {
+            animation: munculTeks 1.5s ease-out forwards;
+        }
+        
+        .cover-title { font-size: 1.3rem; margin-bottom: 5px; font-family: var(--font-sub); color: var(--gold); }
+        .guest-name { font-size: 1.1rem; font-weight: bold; margin: 10px 0; font-family: var(--font-title); color: var(--gold); }
+        
+        .btn-action {
+            display: inline-block; 
+            background-color: var(--maroon); 
+            color: var(--cream);
+            padding: 10px 25px; 
+            border-radius: 20px; 
+            text-decoration: none;
+            margin-top: 15px; 
+            transition: 0.3s; 
+            font-size: 0.9rem; 
+            border: 1px solid var(--gold);
+        }
+        .btn-action:hover { background-color: var(--gold); color: var(--maroon); }
+
+        .container { 
+            width: 100%; 
+            background-image: url('assets/bg-konten.jpg'); 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat; 
+            position: relative;
+            z-index: 5;
+            padding: 10px 0 40px 0;
+        }
+        
+        section { 
+            padding: 35px 15px; 
+            text-align: center; 
+            border-bottom: 1px dashed var(--gold); 
+            background: rgba(253, 251, 247, 0.92); 
+            margin: 12px auto;
+            width: 94%;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .hero { position: relative; padding-top: 25px; }
+        
+        .hero h1 { 
+            font-size: 1.8rem; 
+            margin: 10px 0; 
+            color: var(--maroon); 
+            word-break: break-word;
+            padding: 0 5px;
+        }
+
+        .arch-frame {
+            width: 190px; 
+            height: 265px; 
+            margin: 0 auto;
+            border-radius: 95px 95px 0 0;
+            border: 5px solid var(--gold); 
+            padding: 4px;
+            background-color: var(--maroon); 
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .arch-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 85px 85px 0 0; }
+
+        .countdown-wrapper { 
+            display: flex; 
+            justify-content: center; 
+            gap: 6px; 
+            margin-top: 15px; 
+            flex-wrap: wrap;
+        }
+        .time-box {
+            background: var(--maroon); 
+            color: var(--cream);
+            padding: 8px 4px; 
+            border-radius: 8px; 
+            min-width: 55px; 
+            border: 1px solid var(--gold);
+        }
+        .time-box span { display: block; font-size: 1.1rem; font-weight: bold; font-family: var(--font-title); color: var(--gold); }
+        .time-box small { font-size: 0.65rem; text-transform: uppercase; }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.95); 
+            border: 1px solid var(--gold); 
+            border-radius: 15px;
+            padding: 15px 10px; 
+            margin: 10px 0; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .event-card i { font-size: 1.8rem; color: var(--gold); margin-bottom: 8px; }
+        .map-responsive { overflow: hidden; padding-bottom: 56.25%; position: relative; height: 0; margin-top: 12px; border-radius: 8px; }
+        .map-responsive iframe { left: 0; top: 0; height: 100%; width: 100%; position: absolute; }
+        
+        /* Pengaturan Galeri Potret ke Bawah */
+        .gallery-stack { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            margin-top: 15px; 
+        }
+        .gallery-stack img { 
+            width: 100%; 
+            max-width: 280px; 
+            height: 380px; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            border: 3px solid var(--gold); 
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .bank-card { background: var(--maroon); color: var(--cream); padding: 15px; border-radius: 12px; margin: 12px 0; border: 1px solid var(--gold); }
+        .bank-card h3 { color: var(--gold); }
+        .copy-btn { background: var(--gold); color: var(--maroon); border: none; padding: 6px 15px; border-radius: 5px; cursor: pointer; margin-top: 8px; font-weight: bold; }
+        
+        form { display: flex; flex-direction: column; gap: 10px; text-align: left; margin-top: 12px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: var(--font-text); background: rgba(255,255,255,0.95); font-size: 0.9rem; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--maroon); }
+        
+        #qrResult { display: none; margin-top: 15px; text-align: center; }
+        #qrResult img { margin: 0 auto; border: 5px solid var(--gold); border-radius: 10px; padding: 10px; background: #fff; }
+
+        #audio-control {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--gold); color: var(--maroon);
+            width: 45px; height: 45px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.3rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        @media (min-width: 500px) {
+            #audio-control {
+                right: calc(50% - 225px);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-wrapper">
+        
+        <audio id="bg-music" loop>
+            <source src="assets/music.mp3" type="audio/mpeg">
+        </audio>
+
+        <div id="audio-control" onclick="toggleAudio()">
+            <i class="fas fa-compact-disc" id="audio-icon"></i>
+        </div>
+
+        <div id="cover">
+            <video id="cover-video" autoplay muted loop playsinline class="video-bg">
+                <source src="assets/cover-animasi.mp4" type="video/mp4">
+            </video>
+
+            <div class="cover-content" id="cover-text">
+                <h2 class="cover-title">The Wedding Of</h2>
+                <h1 style="font-size: 1.5rem; margin-bottom: 0; line-height: 1.2; color: var(--gold);">Hisyam & Fanesa</h1>
+                <p style="margin-top: 8px; font-size: 0.8rem;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                <div class="guest-name" id="guest-name">Nama Tamu</div>
+                <p style="margin-top: 5px; font-size: 0.8rem; animation: bounce 2s infinite;">
+                    <i class="fas fa-chevron-down"></i> Gulir ke bawah
+                </p>
+            </div>
+        </div>
+
+        <div class="container" id="konten-undangan">
+            
+            <section class="hero">
+                <h4 class="text-gold">Maha Suci Allah</h4>
+                <p style="margin-top: 5px; font-size: 0.85rem;">Yang telah menciptakan makhluk-Nya berpasang-pasangan.</p>
+                <h1>Hisyam & Fanesa</h1>
+                
+                <div class="arch-frame">
+                    <img src="assets/hero.jpg" alt="Hisyam dan Fanesa" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Mempelai'">
+                </div>
+            </section>
+
+            <section id="waktu">
+                <h2>Menuju Hari Bahagia</h2>
+                <div class="countdown-wrapper">
+                    <div class="time-box"><span id="hari">00</span><small>Hari</small></div>
+                    <div class="time-box"><span id="jam">00</span><small>Jam</small></div>
+                    <div class="time-box"><span id="menit">00</span><small>Menit</small></div>
+                    <div class="time-box"><span id="detik">00</span><small>Detik</small></div>
+                </div>
+            </section>
+
+            <section id="acara">
+                <h2>Rangkaian Acara</h2>
+                <div class="event-card">
+                    <i class="fas fa-ring"></i>
+                    <h3>Akad Nikah & Resepsi</h3>
+                    <p class="text-gold" style="font-weight: bold; margin: 6px 0;">Minggu, 20 Desember 2026</p>
+                    <p>Pukul 08:00 WIB - Selesai</p>
+                    <hr style="margin: 10px 0; border: 0.5px solid #eee;">
+                    <p><strong>Lokasi:</strong> Gedung Pertemuan Cirebon<br>Jl. Cipto Mangunkusumo, Cirebon</p>
+                    
+                    <div class="map-responsive">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126715.79607421375!2d108.46171960133604!3d-6.737035133379203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f1d8ebc133e3f%3A0x91385801f5822049!2sCirebon%2C%20Kota%20Cirebon%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/contoh" target="_blank" class="btn-action">
+                        <i class="fas fa-map-marked-alt"></i> Buka Google Maps
+                    </a>
+                </div>
+            </section>
+
+            <section id="galeri">
+                <h2>Galeri Momen</h2>
+                <div class="gallery-stack">
+                    <img src="assets/galeri1.jpg" alt="Gallery 1" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+1'">
+                    <img src="assets/galeri2.jpg" alt="Gallery 2" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+2'">
+                    <img src="assets/galeri3.jpg" alt="Gallery 3" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+3'">
+                </div>
+            </section>
+
+            <section id="hadiah">
+                <h2>Amplop Digital</h2>
+                <div class="bank-card">
+                    <h3>BCA</h3>
+                    <p>No. Rekening: <span id="rek1">1234567890</span></p>
+                    <p>A.n. Hisyam Nudin</p>
+                    <button class="copy-btn" onclick="copyText('rek1', this)">Salin Nomor</button>
+                </div>
+                <div class="bank-card">
+                    <h3>QRIS E-Wallet</h3>
+                    <img src="assets/qris.jpg" alt="QRIS" style="width: 130px; border-radius: 8px; margin-top: 6px;" onerror="this.src='https://via.placeholder.com/150/ffffff/000000?text=QRIS'">
+                    <p style="margin-top: 6px;">Scan untuk Gopay / OVO / Dana</p>
+                </div>
+            </section>
+
+            <section id="rsvp">
+                <h2>Konfirmasi Kehadiran</h2>
+                <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                    <input type="text" id="namaRSVP" placeholder="Nama Lengkap Anda" required>
+                    <select id="kehadiranRSVP" required>
+                        <option value="" disabled selected>Pilih Konfirmasi Kehadiran</option>
+                        <option value="Hadir">Ya, Saya akan hadir</option>
+                        <option value="Tidak Hadir">Maaf, saya tidak bisa hadir</option>
+                        <option value="Ragu-ragu">Masih ragu-ragu</option>
+                    </select>
+                    <textarea id="ucapanRSVP" rows="3" placeholder="Tulis doa & ucapan selamat..." required></textarea>
+                    <button type="submit" class="btn-action" style="width: 100%; border:none; padding: 12px; font-size: 1rem; cursor: pointer;">
+                        <i class="fab fa-whatsapp"></i> Kirim ke WhatsApp
+                    </button>
+                </form>
+
+                <div id="qrResult">
+                    <h3 class="text-gold" style="margin-bottom: 6px;">Tiket Akses (QR Code)</h3>
+                    <p style="margin-bottom: 10px; font-size: 0.8rem;">Simpan QR Code ini untuk check-in buku tamu digital di lokasi acara.</p>
+                    <div id="qrcode-img"></div>
+                </div>
+            </section>
+            
+            <section style="background-color: var(--maroon); color: var(--cream);">
+                <h2 class="text-gold" style="font-family: var(--font-sub);">Terima Kasih</h2>
+                <h1 style="margin-top: 12px; font-size: 1.8rem; color: var(--gold);">Hisyam & Fanesa</h1>
+            </section>
+        </div>
+        
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            document.getElementById('guest-name').innerText = guestName;
+            document.getElementById('namaRSVP').value = guestName;
+        }
+
+        let isPlaying = false;
+        const audio = document.getElementById('bg-music');
+        const icon = document.getElementById('audio-icon');
+        const video = document.getElementById('cover-video');
+        const textCover = document.getElementById('cover-text');
+
+        const showTextDelay = 5.5;
+
+        video.addEventListener('timeupdate', () => {
+            if (video.currentTime >= showTextDelay) {
+                if (!textCover.classList.contains('animate')) {
+                    textCover.classList.add('animate');
+                }
+            } else {
+                if (video.currentTime < 0.5) {
+                    textCover.classList.remove('animate');
+                }
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.play().then(() => {
+                isPlaying = true;
+                icon.className = 'fas fa-compact-disc fa-spin';
+            }).catch(e => {
+                console.log("Autoplay diblokir oleh browser. Musik akan langsung menyala pada sentuhan/klik pertama.");
+            });
+        });
+
+        function startAudioOnClick() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    icon.className = 'fas fa-compact-disc fa-spin';
+                }).catch(err => console.log(err));
+            }
+        }
+
+        window.addEventListener('pointerdown', startAudioOnClick, { once: true });
+        window.addEventListener('scroll', startAudioOnClick, { once: true });
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                icon.className = 'fas fa-volume-mute';
+            } else {
+                audio.play();
+                icon.className = 'fas fa-compact-disc fa-spin';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        const countdownDate = new Date("Dec 20, 2026 08:00:00").getTime();
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const hari = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const jam = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const menit = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const detik = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("hari").innerHTML = hari;
+            document.getElementById("jam").innerHTML = jam;
+            document.getElementById("menit").innerHTML = menit;
+            document.getElementById("detik").innerHTML = detik;
+
+            if (distance < 0) clearInterval(x);
+        }, 1000);
+
+        function copyText(elementId, btn) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = "Tersalin!";
+                btn.style.backgroundColor = "#4CAF50";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = "var(--gold)";
+                }, 2000);
+            });
+        }
+
+        function submitRSVP(e) {
+            e.preventDefault();
+            const nama = document.getElementById('namaRSVP').value;
+            const kehadiran = document.getElementById('kehadiranRSVP').value;
+            const ucapan = document.getElementById('ucapanRSVP').value;
+            
+            const targetNomor = "62895320379987";
+            const teksWA = `Halo Hisyam & Fanesa,\n\nSaya *${nama}*.\nSaya mengkonfirmasi bahwa saya *${kehadiran}* pada acara pernikahan kalian.\n\nPesan/Doa:\n_${ucapan}_\n\nTerima kasih.`;
+            const waURL = `https://wa.me/${targetNomor}?text=${encodeURIComponent(teksWA)}`;
+
+            const qrData = encodeURIComponent(`RSVP-${nama}-${kehadiran}`);
+            document.getElementById('qrcode-img').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" alt="QR">`;
+            document.getElementById('qrResult').style.display = 'block';
+
+            window.open(waURL, '_blank');
+        }
+    </script>
+</body>
+</html>
