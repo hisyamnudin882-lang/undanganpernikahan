@@ -194,21 +194,24 @@
         .map-responsive { overflow: hidden; padding-bottom: 56.25%; position: relative; height: 0; margin-top: 12px; border-radius: 8px; }
         .map-responsive iframe { left: 0; top: 0; height: 100%; width: 100%; position: absolute; }
         
-        /* Pengaturan Galeri Potret ke Bawah */
-        .gallery-stack { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            margin-top: 15px; 
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+        .gallery-grid img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; border: 2px solid var(--gold); }
+
+        /* Styling untuk Momen Terbaik (3 foto vertikal ke bawah & format portrait) */
+        .portrait-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 12px;
+            align-items: center;
         }
-        .gallery-stack img { 
-            width: 100%; 
-            max-width: 280px; 
-            height: 380px; 
-            object-fit: cover; 
-            border-radius: 12px; 
-            border: 3px solid var(--gold); 
-            margin: 0 auto;
+        .portrait-gallery img {
+            width: 85%;
+            max-width: 300px;
+            height: 380px; /* Membuat bentuk foto portrait memanjang ke bawah */
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
@@ -232,12 +235,6 @@
             z-index: 1000;
         }
 
-        @media (min-width: 500px) {
-            #audio-control {
-                right: calc(50% - 225px);
-            }
-        }
-        
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-8px); }
@@ -316,10 +313,21 @@
 
             <section id="galeri">
                 <h2>Galeri Momen</h2>
-                <div class="gallery-stack">
-                    <img src="assets/galeri1.jpg" alt="Gallery 1" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+1'">
-                    <img src="assets/galeri2.jpg" alt="Gallery 2" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+2'">
-                    <img src="assets/galeri3.jpg" alt="Gallery 3" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Foto+Potret+3'">
+                <div class="gallery-grid">
+                    <img src="assets/galeri1.jpg" alt="Gallery 1" onerror="this.src='https://via.placeholder.com/300/6B2737/D4AF37?text=Foto+1'">
+                    <img src="assets/galeri2.jpg" alt="Gallery 2" onerror="this.src='https://via.placeholder.com/300/6B2737/D4AF37?text=Foto+2'">
+                    <img src="assets/galeri3.jpg" alt="Gallery 3" onerror="this.src='https://via.placeholder.com/300/6B2737/D4AF37?text=Foto+3'">
+                    <img src="assets/galeri4.jpg" alt="Gallery 4" onerror="this.src='https://via.placeholder.com/300/6B2737/D4AF37?text=Foto+4'">
+                </div>
+            </section>
+
+            <!-- Bagian Baru: Momen Terbaik (3 Foto Vertikal / Portrait ke Bawah) -->
+            <section id="momen-terbaik">
+                <h2>Momen Terbaik</h2>
+                <div class="portrait-gallery">
+                    <img src="assets/momen1.jpg" alt="Momen Terbaik 1" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Portrait+1'">
+                    <img src="assets/momen2.jpg" alt="Momen Terbaik 2" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Portrait+2'">
+                    <img src="assets/momen3.jpg" alt="Momen Terbaik 3" onerror="this.src='https://via.placeholder.com/300x450/6B2737/D4AF37?text=Portrait+3'">
                 </div>
             </section>
 
@@ -334,7 +342,7 @@
                 <div class="bank-card">
                     <h3>QRIS E-Wallet</h3>
                     <img src="assets/qris.jpg" alt="QRIS" style="width: 130px; border-radius: 8px; margin-top: 6px;" onerror="this.src='https://via.placeholder.com/150/ffffff/000000?text=QRIS'">
-                    <p style="margin-top: 6px;">Scan untuk Gopay / OVO / Dana</p>
+                    <p style="margin-top: 6px;">Scan untuk QRIS</p>
                 </div>
             </section>
 
