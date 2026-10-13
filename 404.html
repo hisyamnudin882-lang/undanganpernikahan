@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Membuka undangan…</title>
+</head>
+<body>
+    <p>Membuka undangan…</p>
+    <script>
+        (() => {
+            // GitHub Pages project sites need the repository prefix in their URL.
+            const basePath = '/undanganpernikahan/';
+            const currentPath = window.location.pathname;
+            if (!currentPath.startsWith(basePath)) return;
+
+            const routeParts = currentPath.slice(basePath.length).split('/').filter(Boolean);
+            if (routeParts.length !== 1 || routeParts[0].toLowerCase() === 'index.html') return;
+
+            let guestName;
+            try {
+                guestName = decodeURIComponent(routeParts[0].replace(/\+/g, ' '));
+            } catch (error) {
+                guestName = routeParts[0];
+            }
+
+            const invitationUrl = new URL(basePath, window.location.origin);
+            invitationUrl.searchParams.set('to', guestName);
+            invitationUrl.hash = window.location.hash;
+            window.location.replace(invitationUrl.toString());
+        })();
+    </script>
+</body>
+</html>
