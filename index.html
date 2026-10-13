@@ -79,11 +79,6 @@
             filter: brightness(0.7);
         }
 
-        @keyframes munculTeks {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .cover-content {
             position: relative; 
             z-index: 2; 
@@ -98,10 +93,6 @@
             padding: 0 10px;
         }
 
-        .cover-content.animate {
-            animation: munculTeks 1.5s ease-out forwards;
-        }
-        
         .cover-title { font-size: 1.3rem; margin-bottom: 5px; font-family: var(--font-sub); color: var(--gold); }
         .guest-name { font-size: 1.1rem; font-weight: bold; margin: 10px 0; font-family: var(--font-title); color: var(--gold); }
         
@@ -235,6 +226,116 @@
             z-index: 1000;
         }
 
+        #gate-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: transparent;
+            color: var(--cream);
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #gate-intro::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(ellipse at center, #55202e 0%, #211217 78%);
+            transition: opacity 1.5s ease;
+        }
+        #gate-intro.is-opening { pointer-events: none; }
+        #gate-intro.is-opening::before { opacity: 0; }
+        #gate-intro.is-gone { opacity: 0; visibility: hidden; }
+        .gate-copy {
+            position: absolute;
+            z-index: 2;
+            top: 5%;
+            left: 16px;
+            right: 16px;
+            text-shadow: 0 2px 12px #000;
+            transition: opacity 0.35s ease;
+        }
+        .gate-copy h1 { color: var(--gold); font-size: clamp(1.5rem, 6vw, 2.2rem); }
+        .gate-copy p { margin-top: 6px; font-size: 0.9rem; }
+        .gate-hint { margin-top: 10px !important; color: var(--gold); }
+        .gate-panel {
+            position: absolute;
+            top: 57%;
+            width: calc(min(50vw, 240px) + 8px);
+            height: min(82vh, 640px);
+            object-fit: fill;
+            transform: translateY(-50%);
+            transition: transform 1.5s cubic-bezier(0.7, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .gate-panel-left { left: calc(50% - min(50vw, 240px)); }
+        .gate-panel-right { left: calc(50% - 8px); }
+        #gate-intro.is-opening .gate-panel-left { transform: translate(-150vw, -50%); }
+        #gate-intro.is-opening .gate-panel-right { transform: translate(150vw, -50%); }
+        #gate-intro.is-opening .gate-copy { opacity: 0; }
+
+        @keyframes coverArrive {
+            from { opacity: 0.45; transform: scale(1.08); filter: blur(8px); }
+            to { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+        @keyframes coverTextArrive {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes contentArrive {
+            from { opacity: 0; transform: translateY(55px); filter: blur(7px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes revealFromLeft {
+            from { opacity: 0; transform: translate(-100px, 28px) scale(0.96); }
+            to { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+        @keyframes revealFromRight {
+            from { opacity: 0; transform: translate(100px, 28px) scale(0.96); }
+            to { opacity: 1; transform: translate(0, 0) scale(1); }
+        }
+        .invitation-enter #cover {
+            animation: coverArrive 1.35s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+            transform-origin: center;
+        }
+        .cover-content.animate {
+            animation: coverTextArrive 1.35s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+        }
+        .invitation-enter #konten-undangan {
+            animation: contentArrive 1.2s 0.18s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+            transform-origin: top center;
+        }
+        .reveal-item {
+            opacity: 0;
+            will-change: opacity, transform, filter;
+        }
+        .reveal-item.is-visible.reveal-left {
+            animation: revealFromLeft 1.15s cubic-bezier(0.18, 0.72, 0.24, 1) both;
+            animation-delay: var(--reveal-delay, 0ms);
+        }
+        .reveal-item.is-visible.reveal-right {
+            animation: revealFromRight 1.15s cubic-bezier(0.18, 0.72, 0.24, 1) both;
+            animation-delay: var(--reveal-delay, 0ms);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .invitation-enter #cover,
+            .cover-content.animate,
+            .invitation-enter #konten-undangan,
+            .reveal-item.is-visible.reveal-left,
+            .reveal-item.is-visible.reveal-right { animation-duration: 0.8s; }
+        }
+        @media (max-width: 480px) {
+            .gate-panel { top: 61%; height: min(78vh, 640px); }
+            .gate-copy { top: 6%; }
+            .gate-copy h1 { font-size: 1.55rem; }
+            .gate-hint { font-size: 0.8rem !important; }
+        }
+
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-8px); }
@@ -245,17 +346,27 @@
 <body>
 
     <div id="app-wrapper">
+
+        <div id="gate-intro" role="button" tabindex="0" aria-label="Buka gerbang dan lihat undangan" onclick="openGate()" onkeydown="if(event.key === 'Enter' || event.key === ' '){event.preventDefault();openGate();}">
+            <div class="gate-copy">
+                <p>The Wedding Of</p>
+                <h1>Hisyam &amp; Fanesa</h1>
+                <p class="gate-hint"><i class="fas fa-hand-pointer"></i> Klik gerbang untuk membuka undangan</p>
+            </div>
+            <img class="gate-panel gate-panel-left" src="assets/gate-left-trim.png" alt="">
+            <img class="gate-panel gate-panel-right" src="assets/gate-right-trim.png" alt="">
+        </div>
         
         <audio id="bg-music" loop>
             <source src="assets/music.mp3" type="audio/mpeg">
         </audio>
 
-        <div id="audio-control" onclick="toggleAudio()">
+        <div id="audio-control" onclick="toggleAudio()" style="display:none" aria-label="Putar atau jeda musik">
             <i class="fas fa-compact-disc" id="audio-icon"></i>
         </div>
 
         <div id="cover">
-            <video id="cover-video" autoplay muted loop playsinline class="video-bg">
+            <video id="cover-video" muted loop playsinline class="video-bg">
                 <source src="assets/cover-animasi.mp4" type="video/mp4">
             </video>
 
@@ -379,7 +490,16 @@
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const guestName = urlParams.get('to');
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const lastPathPart = window.location.pathname.endsWith('/') ? '' : pathParts[pathParts.length - 1];
+        const pathGuest = lastPathPart && lastPathPart.toLowerCase() !== 'index.html' ? lastPathPart : '';
+        let guestFromPath = '';
+        try {
+            guestFromPath = pathGuest ? decodeURIComponent(pathGuest.replace(/\+/g, ' ')) : '';
+        } catch (error) {
+            guestFromPath = pathGuest;
+        }
+        const guestName = guestFromPath || urlParams.get('to');
         if (guestName) {
             document.getElementById('guest-name').innerText = guestName;
             document.getElementById('namaRSVP').value = guestName;
@@ -390,41 +510,72 @@
         const icon = document.getElementById('audio-icon');
         const video = document.getElementById('cover-video');
         const textCover = document.getElementById('cover-text');
-
         const showTextDelay = 5.5;
-
+        let gateOpened = false;
+        let revealEnabled = false;
         video.addEventListener('timeupdate', () => {
-            if (video.currentTime >= showTextDelay) {
-                if (!textCover.classList.contains('animate')) {
-                    textCover.classList.add('animate');
-                }
-            } else {
-                if (video.currentTime < 0.5) {
-                    textCover.classList.remove('animate');
-                }
+            if (gateOpened && video.currentTime >= showTextDelay && !textCover.classList.contains('animate')) {
+                textCover.classList.add('animate');
             }
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
+        function openGate() {
+            if (gateOpened) return;
+            gateOpened = true;
+            const gate = document.getElementById('gate-intro');
+            gate.classList.add('is-opening');
+            document.getElementById('app-wrapper').classList.add('invitation-enter');
+            video.currentTime = 0;
+            video.play().catch(() => {});
+            window.setTimeout(() => {
+                revealEnabled = true;
+                revealVisibleContent();
+            }, 1050);
+            document.getElementById('audio-control').style.display = 'flex';
             audio.play().then(() => {
                 isPlaying = true;
                 icon.className = 'fas fa-compact-disc fa-spin';
-            }).catch(e => {
-                console.log("Autoplay diblokir oleh browser. Musik akan langsung menyala pada sentuhan/klik pertama.");
+            }).catch(() => {
+                isPlaying = false;
+                icon.className = 'fas fa-volume-mute';
             });
-        });
-
-        function startAudioOnClick() {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    icon.className = 'fas fa-compact-disc fa-spin';
-                }).catch(err => console.log(err));
-            }
+            window.setTimeout(() => {
+                gate.classList.add('is-gone');
+                gate.setAttribute('aria-hidden', 'true');
+            }, 1550);
         }
 
-        window.addEventListener('pointerdown', startAudioOnClick, { once: true });
-        window.addEventListener('scroll', startAudioOnClick, { once: true });
+        const revealTargets = '#konten-undangan section h1, #konten-undangan section h2, #konten-undangan section h3, #konten-undangan section h4, #konten-undangan section p, #konten-undangan .arch-frame, #konten-undangan .countdown-wrapper > *, #konten-undangan .event-card, #konten-undangan .map-responsive, #konten-undangan .btn-action, #konten-undangan .gallery-grid img, #konten-undangan .portrait-gallery img, #konten-undangan .bank-card, #konten-undangan form, #konten-undangan #qrResult';
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && revealEnabled) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.16, rootMargin: '60px 120px' });
+
+        function revealVisibleContent() {
+            window.requestAnimationFrame(() => {
+                document.querySelectorAll('#konten-undangan .reveal-item').forEach(element => {
+                    const bounds = element.getBoundingClientRect();
+                    if (bounds.top < window.innerHeight && bounds.bottom > 0) {
+                        element.classList.add('is-visible');
+                        revealObserver.unobserve(element);
+                    }
+                });
+            });
+        }
+
+        document.querySelectorAll(revealTargets).forEach((element, index) => {
+            if (element.parentElement.closest('.event-card, .bank-card, form, #qrResult')) return;
+            const section = element.closest('section');
+            const sectionIndex = Array.from(document.querySelectorAll('#konten-undangan section')).indexOf(section);
+            const direction = (index + sectionIndex) % 2 === 0 ? 'reveal-left' : 'reveal-right';
+            element.classList.add('reveal-item', direction);
+            element.style.setProperty('--reveal-delay', `${(index % 4) * 90}ms`);
+            revealObserver.observe(element);
+        });
 
         function toggleAudio() {
             if (isPlaying) {
